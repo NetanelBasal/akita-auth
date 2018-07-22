@@ -1,16 +1,17 @@
 import { SessionService } from '../state/session.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor( private authService: SessionService, private router: Router) { }
+  constructor(private authService: SessionService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -22,9 +23,8 @@ export class LoginComponent implements OnInit {
   submit() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe(() => {
-          this.router.navigateByUrl('');
+        this.router.navigateByUrl('');
       })
     }
   }
-
 }

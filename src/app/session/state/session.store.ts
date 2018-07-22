@@ -1,24 +1,34 @@
 import { Injectable } from "@angular/core";
 import { Store, StoreConfig } from "@datorama/akita";
-import { Session, createSession } from "./session.model";
-import { clearSesssion, saveSession } from "../storage";
+import * as storage from "../storage";
 
-export interface State extends Session {}
+export type SessionState = {
+  token: string;
+  name: string;
+}
+
+export function createInitialSessionState(): SessionState {
+  return {
+    token: null,
+    name: null,
+    ...storage.getSession(),
+  }
+}
 
 @Injectable({ providedIn: "root" })
-@StoreConfig({ name: "auth" })
-export class SessionStore extends Store<State> {
+@StoreConfig({ name: "session" })
+export class SessionStore extends Store<SessionState> {
   constructor() {
-    super(createSession());
+    super(createInitialSessionState());
   }
 
-  login(session: Session) {
+  login(session: SessionState) {
     this.update(session);
-    saveSession(session);
+    storage.saveSession(session);
   }
 
   logout() {
-    clearSesssion();
-    this.update(createSession());
+    storage.clearSesssion();
+    this.update(createInitialSessionState());
   }
 }

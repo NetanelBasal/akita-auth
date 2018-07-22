@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Query } from '@datorama/akita';
-import { SessionStore, State } from './session.store';
+import { Query, toBoolean } from '@datorama/akita';
+import { SessionStore, SessionState } from './session.store';
 
 @Injectable({
 	providedIn: 'root'
 })
-export class SessionQuery extends Query<State> {
-	isLoggedIn$ = this.select((state) => !!state.token);
+export class SessionQuery extends Query<SessionState> {
+	isLoggedIn$ = this.select((state) => toBoolean(state.token));
 	name$ = this.select((state) => state.name);
 
 	constructor(protected store: SessionStore) {
 		super(store);
 	}
 
-	hasSession() {
-		return !!this.getSnapshot().token;
+	isLoggedIn() {
+		return toBoolean(this.getSnapshot().token);
 	}
 }

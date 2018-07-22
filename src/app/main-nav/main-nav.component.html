@@ -1,7 +1,7 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" routerLink="/">
-      <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+    <a class="navbar-item" routerLink="/" style="font-size: 30px;">
+      Akita
     </a>
 
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
@@ -19,20 +19,23 @@
 
   <div class="navbar-end">
     <div class="navbar-item">
-      <div class="field is-grouped">
+      <div class="field is-grouped" style="align-items: center;">
         <p class="control" *showIfLoggedIn="false">
           <a class="button" routerLink="login">
-              Login
+            Login
           </a>
         </p>
-        <p class="control" *showIfLoggedIn="true">
-          <a class="button is-primary" (click)="logout()">
-            Logout
-          </a>
-        </p>
-        <p class="control" *showIfLoggedIn="true">
+        <ng-container *showIfLoggedIn="true">
+          <p class="control">
+            <a class="button is-primary" (click)="logout()">
+              Logout
+            </a>
+          </p>
+          <p class="control">
             {{ name$ | async}}
           </p>
+        </ng-container>
+
       </div>
     </div>
   </div>
